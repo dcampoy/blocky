@@ -25,25 +25,37 @@ describe('BlockGrid', () => {
   });
 
   it('renders the blocks in a div in the right order', () => {
-    const blockGrid = new BlockGrid(3,5)
-    const gridEl = document.createElement('div')
+    const blockGrid = new BlockGrid(3, 5);
 
-    blockGrid.render(gridEl)
+    const gridEl = document.createElement('div');
+    blockGrid.render(gridEl);
 
-    const columnEls = Array.from(gridEl.children)
+    const columnEls = Array.from(gridEl.children);
     columnEls.forEach((columnEl, x) => {
-      expect(columnEl.id).toBe(`col_${x}`)
-      expect(columnEl.className).toBe('col')
+      expect(columnEl.id).toBe(`col_${x}`);
+      expect(columnEl.className).toBe('col');
 
-      const blockEls = Array.from(columnEl.children)
+      const blockEls = Array.from(columnEl.children);
       blockEls.forEach((blockEl, i) => {
-        const y = blockGrid.height - i - 1
-        expect(blockEl.id).toBe(`block_${x}x${y}`)
-        expect(blockEl.className).toBe('block')
-        expect(blockEl.style.background).toBe(blockGrid.grid[x][y].colour)
-      })
-    })
-  })
+        const y = blockGrid.height - i - 1;
+        expect(blockEl.id).toBe(`block_${x}x${y}`);
+        expect(blockEl.className).toBe('block');
+        expect(blockEl.style.background).toBe(blockGrid.grid[x][y].colour);
+      });
+    });
+  });
+
+  it('supports gaps in the grid', () => {
+    const blockGrid = new BlockGrid(3, 5);
+    blockGrid.grid[0][0] = null;
+
+    const gridEl = document.createElement('div');
+    blockGrid.render(gridEl);
+
+    const blockEl = gridEl.querySelector('#block_0x0');
+    expect(blockEl.className).toBe('gap');
+    expect(blockEl.style.background).toBe('');
+  });
 
   xit('good luck, have fun!', () => {});
 });

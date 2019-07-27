@@ -30,9 +30,15 @@ class BlockGrid {
         const blockEl = document.createElement('div');
 
         blockEl.id = id;
-        blockEl.className = 'block';
-        blockEl.style.background = block.colour;
-        blockEl.addEventListener('click', evt => this.blockClicked(evt, block));
+        if (block) {
+          blockEl.className = 'block';
+          blockEl.style.background = block.colour;
+          blockEl.addEventListener('click', evt =>
+            this.blockClicked(evt, block)
+          );
+        } else {
+          blockEl.className = 'gap';
+        }
         colEl.appendChild(blockEl);
       }
     }
