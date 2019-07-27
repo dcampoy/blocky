@@ -33,9 +33,7 @@ class BlockGrid {
         if (block) {
           blockEl.className = 'block';
           blockEl.style.background = block.colour;
-          blockEl.addEventListener('click', evt =>
-            this.blockClicked(evt, block)
-          );
+          blockEl.addEventListener('click', () => this.blockClicked(el, block));
         } else {
           blockEl.className = 'gap';
         }
@@ -50,8 +48,56 @@ class BlockGrid {
     }
   }
 
-  blockClicked(e, block) {
-    console.log(e, block);
+  removeSameColor(block) {
+    const toRemove = [block];
+
+    while (toRemove.length > 0) {
+      const { x, y, colour } = toRemove.shift();
+
+      const up = y < this.height - 1 ? this.grid[x][y + 1] : null;
+      const down = y > 0 ? this.grid[x][y - 1] : null;
+      const left = x > 0 ? this.grid[x - 1][y] : null;
+      const right = x < this.width - 1 ? this.grid[x + 1][y] : null;
+
+      if (up && up.colour === colour) {
+        toRemove.push(up);
+      }
+      if (down && down.colour === colour) {
+        toRemove.push(down);
+      }
+      if (left && left.colour === colour) {
+        toRemove.push(left);
+      }
+      if (right && right.colour === colour) {
+        toRemove.push(right);
+      }
+
+      this.grid[x][y] = null;
+    }
+  }
+
+  applyGravity() {
+    for (let index = 0; index < this.width; index++) {
+      const consolidated = this.grid[index].filter(b => b);
+      this.grid[index] = consolidated.fill(
+        null,
+        consolidated.length,
+        this.height
+      );
+
+      this.grid[index].forEach((block, newY) => {
+        if (block) {
+          block.y = newY;
+        }
+      });
+    }
+  }
+
+  blockClicked(el, block) {
+    this.removeSameColor(block);
+    this.applyGravity();
+    this.clear(el);
+    this.render(el);
   }
 }
 
