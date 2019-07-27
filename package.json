@@ -7,7 +7,7 @@
     "build": "webpack --mode=production",
     "start": "webpack-dev-server --mode=development --open",
     "test": "jest",
-    "format": "prettier --write 'app/**/*.{css,js}'"
+    "format": "prettier --write 'src/**/*.{css,js}'"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
