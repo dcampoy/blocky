@@ -44,6 +44,12 @@ class BlockGrid {
     }
   }
 
+  clear(el = document.getElementById('gridEl')) {
+    while (el.lastChild) {
+      el.removeChild(el.lastChild);
+    }
+  }
+
   blockClicked(e, block) {
     console.log(e, block);
   }

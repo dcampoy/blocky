@@ -57,5 +57,16 @@ describe('BlockGrid', () => {
     expect(blockEl.style.background).toBe('');
   });
 
+  it('support to clear the board', () => {
+    const blockGrid = new BlockGrid(3, 5);
+    const gridEl = document.createElement('div');
+
+    blockGrid.render(gridEl);
+    expect(gridEl.children.length).toBeGreaterThan(0);
+
+    blockGrid.clear(gridEl);
+    expect(gridEl.children.length).toBe(0);
+  });
+
   xit('good luck, have fun!', () => {});
 });
