@@ -24,5 +24,26 @@ describe('BlockGrid', () => {
     });
   });
 
+  it('renders the blocks in a div in the right order', () => {
+    const blockGrid = new BlockGrid(3,5)
+    const gridEl = document.createElement('div')
+
+    blockGrid.render(gridEl)
+
+    const columnEls = Array.from(gridEl.children)
+    columnEls.forEach((columnEl, x) => {
+      expect(columnEl.id).toBe(`col_${x}`)
+      expect(columnEl.className).toBe('col')
+
+      const blockEls = Array.from(columnEl.children)
+      blockEls.forEach((blockEl, i) => {
+        const y = blockGrid.height - i - 1
+        expect(blockEl.id).toBe(`block_${x}x${y}`)
+        expect(blockEl.className).toBe('block')
+        expect(blockEl.style.background).toBe(blockGrid.grid[x][y].colour)
+      })
+    })
+  })
+
   xit('good luck, have fun!', () => {});
 });
